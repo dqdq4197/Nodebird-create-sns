@@ -44,6 +44,8 @@ app.use(passport.session());
 
 app.use('/', pageRouter);
 app.use('/auth',authRouter);
+app.use('/post', postRouter);
+app.use('/user', userRouter);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
