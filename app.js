@@ -6,7 +6,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 require('dotenv').config();
-//라우터
+
 const pageRouter = require('./routes/page');
 const authRouter = require('.//routes/auth');
 const postRouter = require('./routes/post');
