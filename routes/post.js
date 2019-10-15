@@ -2,10 +2,11 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+
 const { Post, Hashtag, User } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
-const router = express.Router()
+const router = express.Router();
 
 fs.readdir('uploads', (error) => {
   if (error) {
@@ -19,8 +20,8 @@ const upload = multer({
       cb(null, 'uploads/');
     },
     filename(req, file, cb) {
-      const ext = path.extname(file.originalname);
-      cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
+      const ext = path.extname(file.originalname);  //path.extname -> 파일명에 확장자만 가져옴 (fire.jpg -> .jpg)
+      cb(null, path.basename(file.originalname, ext) + Date.now() + ext);  //path.basename() -> .jpg를 제외한 fire만 가져옴
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },
@@ -38,12 +39,20 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
       content: req.body.content,
       img: req.body.url,
       userId: req.user.id,
-    });
-    const hashtags = req.body.content.match(/#[^\s#]*/g);
+    }); 
+    console.log(post);
+    const hashtags = req.body.content.match(/#[^\s]*/g);
+    console.log(hashtags);
     if (hashtags) {
-      const result = await Promise.all(hashtags.map(tag => Hashtag.findOrCreate({
-        where: { title: tag.slice(1).toLowerCase() },
-      })));
+      const result = await Promise.all(
+        hashtags.map(
+          tag => 
+            Hashtag.findOrCreate({
+               where: { title: tag.slice(1).toLowerCase() },
+            })
+        )
+      );
+      console.log(result);
       await post.addHashtags(result.map(r => r[0]));
     }
     res.redirect('/');
