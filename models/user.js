@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => (
         type: DataTypes.STRING(40),
         allowNull: true,
         unique: true,
+        defaultValue: 'dd@dd.dd',
       },
       nick: {
         type: DataTypes.STRING(15),

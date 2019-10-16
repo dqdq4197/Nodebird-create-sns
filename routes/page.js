@@ -24,7 +24,7 @@ router.get('/', (req, res, next) => {
     order: [['createdAt', 'DESC']],
   })
     .then((posts) => {
-      console.log(posts.map(id => id.userId));
+      //console.log(posts.map(id => id.id));
      //if(user && user.id === post_id)
       res.render('main', {
         title: 'NodeBird',

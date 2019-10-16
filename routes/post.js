@@ -59,12 +59,19 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
   }
 });
 
-//router.post('/delete', async(req,res,next) => {
-//  
-//})
+router.post('/delete/:id', async(req,res,next) => {
+  console.log('게시글 삭제성공');
+  //const post_destory= await Post.destroy({where: {id: req.params.id}})
+  const post_id= await Post.findOne({where: {id: req.params.id}});
+  const tag = await post_id.getHashtags();
+  console.log(post_id.id);
+  console.log(tag[0].id);
+
+})
 
 router.get('/hashtag', async (req, res, next) => {
   const query = req.query.hashtag;
+  console.log(query);
   if (!query) {
     return res.redirect('/');
   }
@@ -74,12 +81,10 @@ router.get('/hashtag', async (req, res, next) => {
     if (hashtag) {
       posts = await hashtag.getPosts({ include: [{ model: User }] });
     }
-    const post_id = await Post.findAll({attributes:[userId],where: { userId: req.user}});
     return res.render('main', {
       title: `${query} | NodeBird`,
       user: req.user,
       twits: posts,
-      post_id:post_id,
     });
   } catch (error) {
     console.error(error);

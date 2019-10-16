@@ -17,6 +17,8 @@ module.exports = (passport) => {
           snsId: profile.id,
           provider: 'kakao',
         });
+        console.log('profile._raw',profile._raw);
+        console.log('json',profile._json);
         done(null, newUser);
       }
     } catch (error) {
