@@ -61,9 +61,10 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
 
 router.post('/delete/:id', async(req,res,next) => {
   console.log('게시글 삭제성공');
-  //const post_destory= await Post.destroy({where: {id: req.params.id}})
   const post_id= await Post.findOne({where: {id: req.params.id}});
   const tag = await post_id.getHashtags();
+  await Post.destroy({where: {id: req.params.id}});
+  await Hashtag.destroy ({where: {id: tag[0].id}});
   console.log(post_id.id);
   console.log(tag[0].id);
 
