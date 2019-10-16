@@ -30,6 +30,8 @@ block content
           if twit.img
             .twit-img
               img(src=twit.img alt='섬네일')
+          if user && user.id === twit.userId
+            button#post_delete 삭제
   script.
     if (document.getElementById('img')) {
       document.getElementById('img').addEventListener('change', function (e) {
@@ -51,6 +53,13 @@ block content
         xhr.send(formData);
       });
     }
+    //포스트 삭제
+    //document.getElementByI(post_delete).addEventListener('click', function() {
+    //  var xhr = new XMLHttpRequest();
+    //  xhr.open('POST', '/post/delete');
+    //  xhr.send();
+    //});
+    
     document.querySelectorAll('.twit-follow').forEach(function (tag) {
       tag.addEventListener('click', function () {
         var isLoggedIn = document.querySelector('#my-id');

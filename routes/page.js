@@ -16,6 +16,7 @@ router.get('/join', isNotLoggedIn, (req, res) => {
 
 router.get('/', (req, res, next) => {
   Post.findAll({
+   // where: {userId:req.user},
     include: {
       model: User,
       attributes: ['id', 'nick'],
@@ -23,6 +24,8 @@ router.get('/', (req, res, next) => {
     order: [['createdAt', 'DESC']],
   })
     .then((posts) => {
+      console.log(posts.map(id => id.userId));
+     //if(user && user.id === post_id)
       res.render('main', {
         title: 'NodeBird',
         twits: posts,

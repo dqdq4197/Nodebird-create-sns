@@ -28,7 +28,7 @@ const upload = multer({
 });
 
 router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
-  console.log(req.file);
+  //console.log(req.file);
   res.json({ url: `/img/${req.file.filename}` });
 });
 
@@ -40,9 +40,7 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
       img: req.body.url,
       userId: req.user.id,
     }); 
-    console.log(post);
     const hashtags = req.body.content.match(/#[^\s]*/g);
-    console.log(hashtags);
     if (hashtags) {
       const result = await Promise.all(
         hashtags.map(
@@ -52,7 +50,6 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
             })
         )
       );
-      console.log(result);
       await post.addHashtags(result.map(r => r[0]));
     }
     res.redirect('/');
@@ -61,6 +58,10 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
     next(error);
   }
 });
+
+//router.post('/delete', async(req,res,next) => {
+//  
+//})
 
 router.get('/hashtag', async (req, res, next) => {
   const query = req.query.hashtag;
@@ -73,10 +74,12 @@ router.get('/hashtag', async (req, res, next) => {
     if (hashtag) {
       posts = await hashtag.getPosts({ include: [{ model: User }] });
     }
+    const post_id = await Post.findAll({attributes:[userId],where: { userId: req.user}});
     return res.render('main', {
       title: `${query} | NodeBird`,
       user: req.user,
       twits: posts,
+      post_id:post_id,
     });
   } catch (error) {
     console.error(error);
