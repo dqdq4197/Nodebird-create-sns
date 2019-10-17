@@ -12,18 +12,37 @@ module.exports = (passport) => {
         done(null, exUser);
       } else {
         const newUser = await User.create({
-          email: profile._json && profile._json.kaccount_email,
+          email: profile._json && profile._json.kakao_account.email,
           nick: profile.displayName,
           snsId: profile.id,
           provider: 'kakao',
         });
-        console.log('profile._raw',profile._raw);
-        console.log('json',profile._json);
+        
         done(null, newUser);
       }
     } catch (error) {
       console.error(error);
       done(error);
+      console.log('profile._raw',profile._raw);
+      console.log('json',profile._json.kakao_account.email);
     }
   }));
 };
+
+
+
+//profile._raw {
+//  "id":1188072874,"properties": {
+//    "nickname":"희수",
+//    "profile_image":"http://k.kakaocdn.net/dn/1PFLX/btqyWVM9nYv/chbQ4S2dDcC8NCRDlFR0BK/profile_640x640s.jpg",
+//    "thumbnail_image":"http://k.kakaocdn.net/dn/1PFLX/btqyWVM9nYv/chbQ4S2dDcC8NCRDlFR0BK/profile_110x110c.jpg"
+//  },
+//  "kakao_account": {
+//    "profile_needs_agreement":false,
+//    "has_email":true,
+//    "email_needs_agreement":false,
+//    "is_email_valid":true,
+//    "is_email_verified":true,
+//    "email":"dqdq4197@hanmail.net"
+//  }
+//}
