@@ -54,6 +54,7 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   display: inline-block;
   border-radius: 4px;
   vertical-align: top;
+  position: relative;
 }
 @media screen and (min-width: 800px) { .timeline { width: 500px; } }
 #twit-form {
@@ -82,12 +83,16 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   background: crimson;
   border: none;
 }
+.twits {
+  transition: height 1s;
+}
 .twit {
   border: 1px solid silver;
   border-radius: 4px;
   padding: 10px;
   position: relative;
   margin-bottom: 10px;
+  transition:1s;
 }
 .twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
 .twit-follow {
@@ -106,4 +111,4 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 #join-form { padding: 10px; text-align: center; }
 #hashtag-form { text-align: right; }
 footer { text-align: center; }
-.post_delete {text-align: right;}
+.post_delete {position: absolute; right:10px; bottom: 10px;}
