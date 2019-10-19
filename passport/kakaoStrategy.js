@@ -17,14 +17,11 @@ module.exports = (passport) => {
           snsId: profile.id,
           provider: 'kakao',
         });
-        
         done(null, newUser);
       }
     } catch (error) {
       console.error(error);
       done(error);
-      console.log('profile._raw',profile._raw);
-      console.log('json',profile._json.kakao_account.email);
     }
   }));
 };
